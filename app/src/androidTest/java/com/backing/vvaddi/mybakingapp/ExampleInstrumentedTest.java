@@ -1,4 +1,4 @@
-package com.backingr.vvaddi.mybakingapp;
+package com.backing.vvaddi.mybakingapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

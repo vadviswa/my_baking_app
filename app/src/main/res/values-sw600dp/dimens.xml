@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="recipe_image">70dp</dimen>
+
+    <bool name="isLarge">true</bool>
+</resources>

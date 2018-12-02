@@ -1,4 +1,4 @@
-package com.backingr.vvaddi.mybakingapp;
+package com.backing.vvaddi.mybakingapp;
 
 import org.junit.Test;
 

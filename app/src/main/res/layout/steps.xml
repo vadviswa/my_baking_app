@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dimen4dp"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen4dp">
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="313dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/textsize_20"
+        app:layout_constraintBottom_toBottomOf="@+id/measure"
+        app:layout_constraintEnd_toStartOf="@id/ingredient_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="flour flour flour flour flour flour flour flour flour flour" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/ingredient_guideline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="top|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".80" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:gravity="top|center_vertical"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/textsize_15"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ingredient_guideline"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/measure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quantity"
+        android:gravity="top|center_vertical"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/textsize_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ingredient_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/quantity"
+        tools:text="cups" />
+
+</android.support.constraint.ConstraintLayout>
