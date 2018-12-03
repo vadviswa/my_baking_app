@@ -1,58 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dimen4dp"
-    android:orientation="vertical"
-    android:padding="@dimen/dimen4dp">
+    android:layout_margin="@dimen/dimen8dp"
+    android:layout_marginBottom="@dimen/dimen8dp"
+    app:cardBackgroundColor="@color/colorPrimaryLight"
+    app:cardCornerRadius="@dimen/dimen8dp">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="313dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="@dimen/textsize_20"
-        app:layout_constraintBottom_toBottomOf="@+id/measure"
-        app:layout_constraintEnd_toStartOf="@id/ingredient_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="flour flour flour flour flour flour flour flour flour flour" />
-
-
-    <android.support.constraint.Guideline
-        android:id="@+id/ingredient_guideline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="top|center_vertical"
+        android:layout_marginStart="@dimen/dimen8dp"
+        android:layout_marginBottom="@dimen/dimen8dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".80" />
+        android:padding="@dimen/dimen4dp">
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:gravity="top|center_vertical"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="@dimen/textsize_15"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/ingredient_guideline"
-        tools:text="2" />
+        <TextView
+            android:id="@+id/shortDescription"
+            style="@style/subheadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen16dp"
+            tools:text="Recipe Introduction Recipe Introduction Recipe" />
 
-    <TextView
-        android:id="@+id/measure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/quantity"
-        android:gravity="top|center_vertical"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="@dimen/textsize_15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ingredient_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/quantity"
-        tools:text="cups" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen8dp"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintTop_toBottomOf="@+id/shortDescription"
+            tools:text="Recipe Introduction" />
 
-</android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen8dp"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/play_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_outline_playlist_play_24px" />
+
+            <TextView
+                android:id="@+id/videoURL"
+                style="@style/action_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen16dp"
+                android:text="@string/video" />
+
+            <TextView
+                android:id="@+id/thumbnailURL"
+                style="@style/action_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen16dp"
+                android:text="@string/thumbUrl" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

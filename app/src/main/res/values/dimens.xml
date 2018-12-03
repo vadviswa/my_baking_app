@@ -1,3 +1,19 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="recipe_image">100dp</dimen>
+    <dimen name="progress_bar">42dp</dimen>
+
+
+    <dimen name="borderDimen">1dp</dimen>
+    <dimen name="dimen4dp">4dp</dimen>
+    <dimen name="dimen6dp">6dp</dimen>
+    <dimen name="dimen8dp">8dp</dimen>
+    <dimen name="dimen16dp">16dp</dimen>
+    <dimen name="dimen50dp">50dp</dimen>
+
+    <dimen name="textsize_15">15sp</dimen>
+    <dimen name="textsize_20">20sp</dimen>
+    <dimen name="textsize_30">30sp</dimen>
+
+    <bool name="isLarge">false</bool>
 </resources>

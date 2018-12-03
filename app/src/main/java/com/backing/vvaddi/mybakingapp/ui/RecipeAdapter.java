@@ -1,7 +1,5 @@
 package com.backing.vvaddi.mybakingapp.ui;
 
-import com.backing.vvaddi.mybakingapp.R;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeAdaptor extends RecyclerView.Adapter<RecipeAdaptor.RecipeViewHolder> {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private ArrayList<Recipe> recipes;
     private Context context;
@@ -25,14 +27,14 @@ public class RecipeAdaptor extends RecyclerView.Adapter<RecipeAdaptor.RecipeView
         void onItemClick(int index);
     }
 
-    public RecipeAdaptor(@NonNull Context context, @NonNull ArrayList<Recipe> recipes, @NonNull ListItemClickListener listener) {
+    public RecipeAdapter(@NonNull Context context, @NonNull ArrayList<Recipe> recipes, @NonNull ListItemClickListener listener) {
         this.context = context;
         this.recipes = recipes;
         this.listener = listener;
     }
 
-    @Override
-    public RecipeAdaptor.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecipeAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.receipe, parent, false);
         return new RecipeViewHolder(view);
@@ -66,13 +68,16 @@ public class RecipeAdaptor extends RecyclerView.Adapter<RecipeAdaptor.RecipeView
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView title;
-        private TextView servings;
+        @BindView(R.id.recipe_title)
+        TextView title;
+
+        @BindView(R.id.recipe_servings)
+        TextView servings;
+
 
         public RecipeViewHolder(View view) {
             super(view);
-            title = itemView.findViewById(R.id.recipe_title);
-            servings = itemView.findViewById(R.id.recipe_servings);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 

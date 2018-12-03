@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.backing.vvaddi.mybakingapp.ui.RecipeDetailFragment">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/ingredients_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen8dp"
+            app:cardBackgroundColor="@color/colorPrimaryLight"
+            app:cardElevation="@dimen/dimen6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen4dp">
+
+                <TextView
+                    style="@style/headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen16dp"
+                    android:layout_marginBottom="@dimen/dimen8dp"
+                    android:gravity="center"
+                    android:text="@string/ingredients" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/borderDimen"
+                    android:layout_marginBottom="@dimen/dimen8dp"
+                    android:background="@color/colorIcons" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            style="@style/headline"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dimen8dp"
+            android:layout_height="wrap_content"
+            android:text="@string/step_by_step" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/borderDimen"
+            android:layout_marginBottom="@dimen/dimen8dp"
+            android:background="@color/colorIcons" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/steps_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

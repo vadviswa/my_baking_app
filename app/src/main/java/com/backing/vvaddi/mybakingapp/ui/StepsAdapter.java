@@ -10,39 +10,37 @@ import android.widget.TextView;
 
 import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Ingredient;
-import com.backing.vvaddi.mybakingapp.model.Recipe;
+import com.backing.vvaddi.mybakingapp.model.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHolder> {
 
-    private List<Ingredient> ingredients;
+    private List<Step> steps;
     private Context context;
 
 
-    public IngredientAdapter(@NonNull Context context, @NonNull List<Ingredient> ingredients) {
+    public StepsAdapter(@NonNull Context context, @NonNull List<Step> steps) {
         this.context = context;
-        this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     @Override
-    public IngredientAdapter.IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StepsAdapter.StepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.ingredients, parent, false);
-        return new IngredientViewHolder(view);
+                R.layout.steps, parent, false);
+        return new StepViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(IngredientViewHolder holder, int position) {
-        final Ingredient ingredient = ingredients.get(position);
+    public void onBindViewHolder(StepViewHolder holder, int position) {
+        final Step step = steps.get(position);
 
-        holder.quantity.setText(ingredient.getQuantity());
-        holder.measure.setText(ingredient.getMeasure());
-        holder.description.setText(ingredient.getIngredient());
+        holder.shortDescription.setText(step.getShortDescription());
+        holder.description.setText(step.getDescription());
     }
 
 
@@ -51,22 +49,19 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
      */
     @Override
     public int getItemCount() {
-        return ingredients.size();
+        return steps.size();
     }
 
 
-    public class IngredientViewHolder extends RecyclerView.ViewHolder {
+    public class StepViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.quantity)
-        TextView quantity;
-
-        @BindView(R.id.measure)
-        TextView measure;
+        @BindView(R.id.shortDescription)
+        TextView shortDescription;
 
         @BindView(R.id.description)
         TextView description;
 
-        public IngredientViewHolder(View view) {
+        public StepViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
