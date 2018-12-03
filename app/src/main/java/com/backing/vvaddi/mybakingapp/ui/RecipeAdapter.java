@@ -3,13 +3,16 @@ package com.backing.vvaddi.mybakingapp.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         holder.title.setText(recipe.getName());
         holder.servings.setText(context.getResources().getString(R.string.serves) + " " + recipe.getServings());
+        if (TextUtils.isEmpty(recipe.getImage())) {
+            Picasso.with(context).load(R.drawable.receipe_placeholder).into(holder.imageView);
+        } else {
+            Picasso.with(context).load(recipe.getId()).into(holder.imageView);
+        }
     }
 
     public void refresh(List<Recipe> recipeList) {
@@ -73,6 +81,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         @BindView(R.id.recipe_servings)
         TextView servings;
+
+        @BindView(R.id.recipe_image)
+        ImageView imageView;
 
 
         public RecipeViewHolder(View view) {

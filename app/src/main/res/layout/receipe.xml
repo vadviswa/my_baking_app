@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dimen8dp"
-    android:layout_marginLeft="@dimen/dimen8dp"
+    android:padding="@dimen/dimen4dp"
     app:cardBackgroundColor="@color/colorAccent"
     app:cardCornerRadius="@dimen/dimen8dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen8dp"
         android:layout_marginBottom="@dimen/dimen8dp"
@@ -19,14 +19,14 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/recipe_image"
-            android:layout_width="@dimen/recipe_image"
-            android:layout_height="@dimen/recipe_image" />
+            android:layout_width="@dimen/recipe_image_width"
+            android:layout_height="@dimen/recipe_image_height" />
 
         <TextView
             android:id="@+id/recipe_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen8dp"
+            android:layout_marginLeft="@dimen/dimen16dp"
             android:layout_marginBottom="@dimen/dimen8dp"
             android:layout_toRightOf="@id/recipe_image"
             android:textColor="@color/colorPrimaryDark"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recipe_title"
-            android:layout_marginLeft="@dimen/dimen8dp"
+            android:layout_marginLeft="@dimen/dimen16dp"
             android:layout_toRightOf="@id/recipe_image"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/textsize_20"

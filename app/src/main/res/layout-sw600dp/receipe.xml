@@ -20,8 +20,8 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/recipe_image"
-            android:layout_width="@dimen/recipe_image"
-            android:layout_height="@dimen/recipe_image" />
+            android:layout_width="@dimen/recipe_image_width"
+            android:layout_height="@dimen/recipe_image_height" />
 
         <TextView
             android:id="@+id/recipe_title"
