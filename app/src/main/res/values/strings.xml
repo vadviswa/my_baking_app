@@ -2,8 +2,6 @@
     <string name="app_name">MyBakingApp</string>
     <string name="bakingTime">Baking Time</string>
     <string name="serves">Serves</string>
-    <string name="video">Video</string>
-    <string name="thumbUrl">Thumb URL</string>
     <string name="ingredients">Ingredients</string>
     <string name="step_by_step">Procedure</string>
 </resources>

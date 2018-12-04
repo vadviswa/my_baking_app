@@ -2,6 +2,7 @@
 
     <dimen name="recipe_image_width">120dp</dimen>
     <dimen name="recipe_image_height">100dp</dimen>
+    <dimen name="video_height">300dp</dimen>
     <dimen name="progress_bar">42dp</dimen>
 
 

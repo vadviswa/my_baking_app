@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen16dp"
-            tools:text="Recipe Introduction Recipe Introduction Recipe" />
+            tools:text="step 1" />
 
         <TextView
             android:id="@+id/description"
@@ -32,40 +32,15 @@
             android:layout_marginBottom="@dimen/dimen8dp"
             android:textSize="@dimen/textsize_20"
             app:layout_constraintTop_toBottomOf="@+id/shortDescription"
-            tools:text="Recipe Introduction" />
+            tools:text="Recipe details details" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dimen8dp"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/play_recipe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_outline_playlist_play_24px" />
-
-            <TextView
-                android:id="@+id/videoURL"
-                style="@style/action_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen16dp"
-                android:text="@string/video" />
-
-            <TextView
-                android:id="@+id/thumbnailURL"
-                style="@style/action_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen16dp"
-                android:text="@string/thumbUrl" />
-        </LinearLayout>
-
+        <ImageView
+            android:id="@+id/thumbNail"
+            android:layout_width="@dimen/dimen50dp"
+            android:layout_height="@dimen/dimen50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_outline_playlist_play_24px" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

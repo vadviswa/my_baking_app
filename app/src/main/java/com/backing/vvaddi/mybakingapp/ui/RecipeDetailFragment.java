@@ -13,12 +13,13 @@ import android.view.ViewGroup;
 
 import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
+import com.backing.vvaddi.mybakingapp.model.Step;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment implements StepsAdapter.VideoClickListener {
 
     public static final String RECIPE = "receipe";
     private Unbinder unbinder;
@@ -52,7 +53,7 @@ public class RecipeDetailFragment extends Fragment {
 
         LinearLayoutManager linearLayout = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         stepsRecyclerView.setLayoutManager(linearLayout);
-        stepsAdapter = new StepsAdapter(getActivity().getApplicationContext(), recipe.getSteps());
+        stepsAdapter = new StepsAdapter(getActivity().getApplicationContext(), recipe.getSteps(), this);
         stepsRecyclerView.setAdapter(stepsAdapter);
     }
 
@@ -75,5 +76,19 @@ public class RecipeDetailFragment extends Fragment {
         super.onDestroyView();
         ((Toolbar) getActivity().findViewById(R.id.toolbar)).setTitle(getResources().getString(R.string.bakingTime));
         unbinder.unbind();
+    }
+
+    @Override
+    public void onItemClick(int index) {
+        final Step step = stepsAdapter.getStep(index);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(VideoFragment.VIDEO_RECEIPE, step);
+        VideoFragment fragment = new VideoFragment();
+        fragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment, "videoFragment")
+                .addToBackStack(null)
+                .commit();
     }
 }

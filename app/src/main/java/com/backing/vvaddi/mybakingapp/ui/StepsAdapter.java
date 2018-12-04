@@ -3,14 +3,16 @@ package com.backing.vvaddi.mybakingapp.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.backing.vvaddi.mybakingapp.R;
-import com.backing.vvaddi.mybakingapp.model.Ingredient;
 import com.backing.vvaddi.mybakingapp.model.Step;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,11 +23,16 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
 
     private List<Step> steps;
     private Context context;
+    private VideoClickListener videoClickListener;
 
+    public interface VideoClickListener {
+        void onItemClick(int index);
+    }
 
-    public StepsAdapter(@NonNull Context context, @NonNull List<Step> steps) {
+    public StepsAdapter(@NonNull Context context, @NonNull List<Step> steps, @NonNull VideoClickListener clickListener) {
         this.context = context;
         this.steps = steps;
+        this.videoClickListener = clickListener;
     }
 
     @Override
@@ -41,8 +48,17 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
 
         holder.shortDescription.setText(step.getShortDescription());
         holder.description.setText(step.getDescription());
+        if (TextUtils.isEmpty(step.getVideoURL())) {
+            holder.thumbNailURL.setVisibility(View.GONE);
+        } else {
+            if (!TextUtils.isEmpty(step.getThumbnailURL()))
+                Picasso.with(context).load(step.getThumbnailURL()).into(holder.thumbNailURL);
+        }
     }
 
+    public Step getStep(int index) {
+        return steps.get(index);
+    }
 
     /**
      * @return Return the size of your dataset (invoked by the layout manager)
@@ -53,7 +69,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
     }
 
 
-    public class StepViewHolder extends RecyclerView.ViewHolder {
+    public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.shortDescription)
         TextView shortDescription;
@@ -61,9 +77,19 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
         @BindView(R.id.description)
         TextView description;
 
+        @BindView(R.id.thumbNail)
+        ImageView thumbNailURL;
+
         public StepViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            thumbNailURL.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            videoClickListener.onItemClick(clickedPosition);
         }
     }
 }
