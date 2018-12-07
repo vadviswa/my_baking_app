@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.backing.vvaddi.mybakingapp.MainActivity;
 import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
 import com.backing.vvaddi.mybakingapp.model.Step;
@@ -85,12 +89,26 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.Video
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(VideoFragment.STEP_VIDEO_RECEIPE, stepsAdapter.getSteps());
         bundle.putInt(VideoFragment.STEP_INDEX, index);
-        VideoFragment fragment = new VideoFragment();
-        fragment.setArguments(bundle);
+        VideoFragment videoFragment = new VideoFragment();
+        videoFragment.setArguments(bundle);
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, "videoFragment")
-                .addToBackStack(null)
-                .commit();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(MainActivity.VIDEO_FRAGMENT_TAG);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (getResources().getBoolean(R.bool.isLarge)) {
+            if (fragment != null) {
+                fragmentTransaction.remove(fragment);
+            }
+            fragmentTransaction
+                    .add(R.id.fragment_detail_container, videoFragment, MainActivity.VIDEO_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            fragmentTransaction
+                    .replace(R.id.fragment_container, videoFragment, MainActivity.VIDEO_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }

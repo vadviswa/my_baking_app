@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="recipe_image_width">70dp</dimen>
-
+    <dimen name="recipe_image_width">120dp</dimen>
+    <dimen name="recipe_image_height">100dp</dimen>
+    <dimen name="recipe_width">300dp</dimen>
+    <dimen name="ingredients_width">380dp</dimen>
     <bool name="isLarge">true</bool>
 </resources>

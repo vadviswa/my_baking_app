@@ -31,16 +31,15 @@
 
         <FrameLayout
             android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/ingredients_width"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true" />
 
         <FrameLayout
             android:id="@+id/fragment_detail_container"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:visibility="gone" />
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

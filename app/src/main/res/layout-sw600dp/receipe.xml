@@ -11,7 +11,7 @@
     app:cardElevation="@dimen/dimen6dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/recipe_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen8dp"
         android:layout_marginBottom="@dimen/dimen8dp"

@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
 import com.backing.vvaddi.mybakingapp.ui.adapter.RecipeAdapter;
 import com.backing.vvaddi.mybakingapp.ui.fragment.RecipeDetailFragment;
+import com.backing.vvaddi.mybakingapp.ui.fragment.VideoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,9 @@ import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
 
-
     private static final String RECIPE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    private static final String RECIPE_FRAGMENT_TAG = "recipeDetailFragment";
+    public static final String VIDEO_FRAGMENT_TAG = "videoFragment";
 
     private Unbinder unbinder;
     private RequestQueue queue;
@@ -46,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     @BindView(R.id.loading_indicator)
     ProgressBar progressBar;
 
-    @BindView(R.id.fragment_container)
-    FrameLayout frameLayout;
+    @BindView(R.id.recipe_fragment)
+    RelativeLayout relativeLayout;
 
 
     @Override
@@ -104,11 +108,42 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         recipeDetailFragment.setArguments(bundle);
 
         recyclerView.setVisibility(View.GONE);
-        frameLayout.setVisibility(View.VISIBLE);
-        this.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, recipeDetailFragment, "recipeDetailFragment")
-                .addToBackStack(null)
-                .commit();
+        relativeLayout.setVisibility(View.VISIBLE);
+
+        if (getResources().getBoolean(R.bool.isLarge)) {
+
+            this.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, recipeDetailFragment, RECIPE_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+
+            Bundle videoBundle = new Bundle();
+            videoBundle.putParcelableArrayList(VideoFragment.STEP_VIDEO_RECEIPE, recipe.getSteps());
+            videoBundle.putInt(VideoFragment.STEP_INDEX, 0);
+            VideoFragment videoFragment = new VideoFragment();
+            videoFragment.setArguments(videoBundle);
+            this.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_detail_container, videoFragment, VIDEO_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+
+        } else {
+            this.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, recipeDetailFragment, RECIPE_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    public void restorePreviousState(Bundle savedInstanceState) {
+        // getting recyclerview position
+        Parcelable mListState = savedInstanceState.getParcelable(RECYCLER_VIEW_POSITION);
+        // getting recyclerview items
+        ArrayList<Recipe> mDataset = savedInstanceState.getParcelableArrayList(RECYCLER_VIEW_DATASET);
+        // Restoring adapter items
+        adapter.refresh(mDataset);
+        // Restoring recycler view position
+        recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
     }
 
     @Override
@@ -126,17 +161,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    public void restorePreviousState(Bundle savedInstanceState) {
-        // getting recyclerview position
-        Parcelable listState = savedInstanceState.getParcelable(RECYCLER_VIEW_POSITION);
-        // getting recyclerview items
-        ArrayList<Recipe> dataset = savedInstanceState.getParcelableArrayList(RECYCLER_VIEW_DATASET);
-        // Restoring adapter items
-        adapter.refresh(dataset);
-        // Restoring recycler view position
-        recyclerView.getLayoutManager().onRestoreInstanceState(listState);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -145,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     private int calculateNoOfColumns() {
         if (getResources().getBoolean(R.bool.isLarge))
-            return 4;
+            return 2;
         else
             return 1;
     }

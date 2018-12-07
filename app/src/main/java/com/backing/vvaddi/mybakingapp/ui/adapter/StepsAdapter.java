@@ -2,12 +2,15 @@ package com.backing.vvaddi.mybakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.backing.vvaddi.mybakingapp.R;
@@ -81,10 +84,13 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
         @BindView(R.id.thumbNail)
         ImageView thumbNailURL;
 
+        @BindView(R.id.recipe_detail)
+        LinearLayout recipeCardView;
+
         public StepViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            thumbNailURL.setOnClickListener(this);
+            recipeCardView.setOnClickListener(this);
         }
 
         @Override
