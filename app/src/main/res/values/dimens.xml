@@ -26,4 +26,9 @@ Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_height">200dp</dimen>
+    <dimen name="widget_width">200dp</dimen>
+    <dimen name="widget_resize_width">150dp</dimen>
+    <dimen name="widget_resize_height">100dp</dimen>
+    <dimen name="widget_padding">4dp</dimen>
 </resources>

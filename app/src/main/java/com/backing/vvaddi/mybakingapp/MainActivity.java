@@ -1,5 +1,8 @@
 package com.backing.vvaddi.mybakingapp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -19,13 +22,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.backing.vvaddi.mybakingapp.model.Ingredient;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
 import com.backing.vvaddi.mybakingapp.ui.adapter.RecipeAdapter;
 import com.backing.vvaddi.mybakingapp.ui.fragment.RecipeDetailFragment;
 import com.backing.vvaddi.mybakingapp.ui.fragment.VideoFragment;
+import com.backing.vvaddi.mybakingapp.widget.BakingWidgetProvider;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.prefs.Preferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,12 +41,13 @@ import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
 
-    private static final String RECIPE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    public static final String RECIPE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private static final String RECIPE_FRAGMENT_TAG = "recipeDetailFragment";
     public static final String VIDEO_FRAGMENT_TAG = "videoFragment";
 
     private Unbinder unbinder;
     private RequestQueue queue;
+    private Recipe recipe;
     private LinearLayoutManager layoutManager;
     private final String RECYCLER_VIEW_POSITION = "recycler_position";
     private final String RECYCLER_VIEW_DATASET = "recycler_data";
@@ -120,12 +129,36 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (recipe == null) {
+            recipe = adapter.getRecipes().get(0);
+        }
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("recipe_name", recipe.getName());
+        Set<String> ingredients = new HashSet<>();
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            String fullDescription = ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient() + "\n";
+            ingredients.add(fullDescription);
+        }
+        editor.putStringSet("ingredients", ingredients);
+        editor.commit();
+
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), BakingWidgetProvider.class));
+        BakingWidgetProvider myWidget = new BakingWidgetProvider();
+        myWidget.onUpdate(this, AppWidgetManager.getInstance(this), ids);
+    }
+
+    @Override
     public void onItemClick(int index) {
-        final Recipe recipe = adapter.getRecipes().get(index);
+        recipe = adapter.getRecipes().get(index);
         RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(RecipeDetailFragment.RECIPE, recipe);
         recipeDetailFragment.setArguments(bundle);
+
 
         recyclerView.setVisibility(View.GONE);
         relativeLayout.setVisibility(View.VISIBLE);
