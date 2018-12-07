@@ -56,5 +56,33 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/previous_step"
+                android:layout_width="@dimen/dimen150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/dimen16dp"
+                android:background="@color/colorAccent"
+                android:text="@string/previous_step"
+                android:textColor="@color/colorSecondaryText" />
+
+            <Button
+                android:id="@+id/next_step"
+                android:layout_width="@dimen/dimen150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dimen16dp"
+                android:background="@color/colorAccent"
+                android:text="@string/next_step"
+                android:textColor="@color/colorSecondaryText" />
+
+        </RelativeLayout>
     </LinearLayout>
+
 </ScrollView>

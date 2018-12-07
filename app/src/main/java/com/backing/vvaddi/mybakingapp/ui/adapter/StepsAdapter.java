@@ -1,4 +1,4 @@
-package com.backing.vvaddi.mybakingapp.ui;
+package com.backing.vvaddi.mybakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,6 +14,7 @@ import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Step;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHolder> {
 
-    private List<Step> steps;
+    private ArrayList<Step> steps;
     private Context context;
     private VideoClickListener videoClickListener;
 
@@ -29,7 +30,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
         void onItemClick(int index);
     }
 
-    public StepsAdapter(@NonNull Context context, @NonNull List<Step> steps, @NonNull VideoClickListener clickListener) {
+    public StepsAdapter(@NonNull Context context, @NonNull ArrayList<Step> steps, @NonNull VideoClickListener clickListener) {
         this.context = context;
         this.steps = steps;
         this.videoClickListener = clickListener;
@@ -56,8 +57,8 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepViewHold
         }
     }
 
-    public Step getStep(int index) {
-        return steps.get(index);
+    public ArrayList<Step> getSteps() {
+        return steps;
     }
 
     /**

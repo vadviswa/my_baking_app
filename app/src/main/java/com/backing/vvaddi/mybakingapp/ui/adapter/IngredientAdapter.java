@@ -1,4 +1,4 @@
-package com.backing.vvaddi.mybakingapp.ui;
+package com.backing.vvaddi.mybakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

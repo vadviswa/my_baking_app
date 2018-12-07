@@ -17,8 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
-import com.backing.vvaddi.mybakingapp.ui.RecipeAdapter;
-import com.backing.vvaddi.mybakingapp.ui.RecipeDetailFragment;
+import com.backing.vvaddi.mybakingapp.ui.adapter.RecipeAdapter;
+import com.backing.vvaddi.mybakingapp.ui.fragment.RecipeDetailFragment;
 
 import java.util.ArrayList;
 import java.util.List;

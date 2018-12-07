@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Recipe implements Parcelable {
     private int servings;
     private String image;
     private List<Ingredient> ingredients;
-    private List<Step> steps;
+    private ArrayList<Step> steps;
 
     public Recipe() {
     }
@@ -70,11 +71,11 @@ public class Recipe implements Parcelable {
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    public ArrayList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(ArrayList<Step> steps) {
         this.steps = steps;
     }
 

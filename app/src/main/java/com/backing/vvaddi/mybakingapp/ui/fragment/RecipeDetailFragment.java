@@ -1,4 +1,4 @@
-package com.backing.vvaddi.mybakingapp.ui;
+package com.backing.vvaddi.mybakingapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Recipe;
 import com.backing.vvaddi.mybakingapp.model.Step;
+import com.backing.vvaddi.mybakingapp.ui.adapter.IngredientAdapter;
+import com.backing.vvaddi.mybakingapp.ui.adapter.StepsAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,9 +82,9 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.Video
 
     @Override
     public void onItemClick(int index) {
-        final Step step = stepsAdapter.getStep(index);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(VideoFragment.VIDEO_RECEIPE, step);
+        bundle.putParcelableArrayList(VideoFragment.STEP_VIDEO_RECEIPE, stepsAdapter.getSteps());
+        bundle.putInt(VideoFragment.STEP_INDEX, index);
         VideoFragment fragment = new VideoFragment();
         fragment.setArguments(bundle);
 
