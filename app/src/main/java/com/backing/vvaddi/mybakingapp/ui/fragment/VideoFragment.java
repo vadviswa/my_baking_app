@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.backing.vvaddi.mybakingapp.MainActivity;
 import com.backing.vvaddi.mybakingapp.R;
 import com.backing.vvaddi.mybakingapp.model.Step;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -159,12 +162,27 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         else if (v.getId() == R.id.previous_step)
             bundle.putInt(VideoFragment.STEP_INDEX, stepIndex - 1);
 
-        VideoFragment fragment = new VideoFragment();
-        fragment.setArguments(bundle);
+        VideoFragment videoFragment = new VideoFragment();
+        videoFragment.setArguments(bundle);
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, "videoFragment")
-                .addToBackStack(null)
-                .commit();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment existingFragment = fragmentManager.findFragmentByTag(MainActivity.VIDEO_FRAGMENT_TAG);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (existingFragment != null) {
+            fragmentTransaction.remove(existingFragment);
+        }
+
+        if (getResources().getBoolean(R.bool.isLarge)) {
+            fragmentTransaction
+                    .add(R.id.fragment_detail_container, videoFragment, MainActivity.VIDEO_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            fragmentTransaction
+                    .add(R.id.fragment_container, videoFragment, MainActivity.VIDEO_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }
