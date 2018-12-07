@@ -64,7 +64,7 @@
 
             <Button
                 android:id="@+id/previous_step"
-                android:layout_width="@dimen/dimen150dp"
+                android:layout_width="@dimen/dimen120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/dimen16dp"
@@ -74,7 +74,7 @@
 
             <Button
                 android:id="@+id/next_step"
-                android:layout_width="@dimen/dimen150dp"
+                android:layout_width="@dimen/dimen120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dimen16dp"

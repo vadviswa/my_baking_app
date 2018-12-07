@@ -79,9 +79,18 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         if (stepIndex == -1 || stepIndex >= steps.size())
             stepIndex = 0;
 
-        initializePlayer();
         nextStepButton.setOnClickListener(this);
         previousStepButton.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
+        }
+
         if (steps != null) {
             Step step = steps.get(stepIndex);
             shortDescription.setText(step.getShortDescription());
@@ -92,6 +101,15 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                 exoPlayer.setVisibility(View.VISIBLE);
                 setVideoReceipe(Uri.parse(step.getVideoURL()));
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideSystemUi();
+        if ((Util.SDK_INT <= 23 || player == null)) {
+            initializePlayer();
         }
     }
 
@@ -115,16 +133,19 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        releasePlayer();
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-        releasePlayer();
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
     private void initializePlayer() {
@@ -135,10 +156,19 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void hideSystemUi() {
+        exoPlayer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
     private void setVideoReceipe(Uri mediaUri) {
         exoPlayer.setPlayer(player);
         Context context = getActivity();
-        String userAgent = Util.getUserAgent(context, "ClassicalMusicQuiz");
+        String userAgent = Util.getUserAgent(context, "BackingApp");
         MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                 context, userAgent), new DefaultExtractorsFactory(), null, null);
         player.prepare(mediaSource);

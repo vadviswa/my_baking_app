@@ -2,6 +2,7 @@ package com.backing.vvaddi.mybakingapp;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     private LinearLayoutManager layoutManager;
     private final String RECYCLER_VIEW_POSITION = "recycler_position";
     private final String RECYCLER_VIEW_DATASET = "recycler_data";
+    private boolean oncreate = false;
 
     @BindView(R.id.recipe_recylerview)
     RecyclerView recyclerView;
@@ -71,7 +73,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         } else {
             retrieveRecipeMasterList();
         }
+        oncreate = true;
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recyclerView.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
     }
 
     private void retrieveRecipeMasterList() {
@@ -97,6 +106,17 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment recipeDetail = getSupportFragmentManager().findFragmentByTag(RECIPE_FRAGMENT_TAG);
+        Fragment videoFragment = getSupportFragmentManager().findFragmentByTag(VIDEO_FRAGMENT_TAG);
+        if (recipeDetail != null && videoFragment == null) {
+            recyclerView.setVisibility(View.VISIBLE);
+            relativeLayout.setVisibility(View.GONE);
+        }
+        super.onBackPressed();
     }
 
     @Override
