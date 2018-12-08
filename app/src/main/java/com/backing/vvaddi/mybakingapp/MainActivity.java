@@ -88,8 +88,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     @Override
     protected void onResume() {
         super.onResume();
-        recyclerView.setVisibility(View.VISIBLE);
-        relativeLayout.setVisibility(View.GONE);
+        Fragment recipeDetail = getSupportFragmentManager().findFragmentByTag(RECIPE_FRAGMENT_TAG);
+        Fragment videoFragment = getSupportFragmentManager().findFragmentByTag(VIDEO_FRAGMENT_TAG);
+        if (recipeDetail != null || videoFragment != null) {
+            recyclerView.setVisibility(View.GONE);
+            relativeLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void retrieveRecipeMasterList() {
@@ -132,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     protected void onStop() {
         super.onStop();
 
+        if (adapter.getRecipes() == null || adapter.getRecipes().size() < 1)
+            return;
         if (recipe == null) {
             recipe = adapter.getRecipes().get(0);
         }

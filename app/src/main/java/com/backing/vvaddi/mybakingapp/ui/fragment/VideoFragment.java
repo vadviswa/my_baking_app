@@ -41,11 +41,13 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
 
     public static final String STEP_VIDEO_RECEIPE = "stepsVideo";
     public static final String STEP_INDEX = "stepIndex";
+    public static final String PLAYER_POSITION = "player_position";
 
     private Unbinder unbinder;
     private ArrayList<Step> steps;
     private int stepIndex;
     private SimpleExoPlayer player;
+    private long position;
 
     @BindView(R.id.recipe_video)
     SimpleExoPlayerView exoPlayer;
@@ -57,40 +59,38 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     TextView description;
 
     @BindView(R.id.next_step)
+    @Nullable
     Button nextStepButton;
 
     @BindView(R.id.previous_step)
+    @Nullable
     Button previousStepButton;
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            steps = savedInstanceState.getParcelable(STEP_VIDEO_RECEIPE);
-            stepIndex = savedInstanceState.getInt(STEP_INDEX);
-        } else if (getArguments() != null) {
+    public void setArguments(@Nullable Bundle args) {
+        super.setArguments(args);
+        if (getArguments() != null) {
             steps = getArguments().getParcelableArrayList(STEP_VIDEO_RECEIPE);
             stepIndex = getArguments().getInt(STEP_INDEX, -1);
+            position = 0;
         }
-
         if (steps == null)
             return;
         if (stepIndex == -1 || stepIndex >= steps.size())
             stepIndex = 0;
-
-        nextStepButton.setOnClickListener(this);
-        previousStepButton.setOnClickListener(this);
-
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (Util.SDK_INT > 23) {
-            initializePlayer();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.receipe_video, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        if (savedInstanceState != null) {
+            steps = savedInstanceState.getParcelableArrayList(STEP_VIDEO_RECEIPE);
+            stepIndex = savedInstanceState.getInt(STEP_INDEX);
+            position = savedInstanceState.getLong(PLAYER_POSITION, 0);
         }
-
+        initializePlayer();
         if (steps != null) {
             Step step = steps.get(stepIndex);
             shortDescription.setText(step.getShortDescription());
@@ -101,6 +101,19 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                 exoPlayer.setVisibility(View.VISIBLE);
                 setVideoReceipe(Uri.parse(step.getVideoURL()));
             }
+        }
+        if (nextStepButton != null)
+            nextStepButton.setOnClickListener(this);
+        if (previousStepButton != null)
+            previousStepButton.setOnClickListener(this);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
         }
     }
 
@@ -114,22 +127,11 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.receipe_video, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (steps != null) {
-            Step step = steps.get(stepIndex);
-            shortDescription.setText(step.getShortDescription());
-            description.setText(step.getDescription());
-            setVideoReceipe(Uri.parse(step.getVideoURL()));
-        }
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STEP_VIDEO_RECEIPE, steps);
+        outState.putInt(STEP_INDEX, stepIndex);
+        outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
     }
 
     @Override
@@ -153,6 +155,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+            player.seekTo(position);
         }
     }
 
