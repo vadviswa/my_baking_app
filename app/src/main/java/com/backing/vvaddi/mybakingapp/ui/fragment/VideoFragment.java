@@ -42,12 +42,14 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     public static final String STEP_VIDEO_RECEIPE = "stepsVideo";
     public static final String STEP_INDEX = "stepIndex";
     public static final String PLAYER_POSITION = "player_position";
+    public static final String PLAYER_PLAY_STATE = "player_play_state";
 
     private Unbinder unbinder;
     private ArrayList<Step> steps;
     private int stepIndex;
     private SimpleExoPlayer player;
     private long position;
+    private boolean playState;
 
     @BindView(R.id.recipe_video)
     SimpleExoPlayerView exoPlayer;
@@ -87,8 +89,9 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         unbinder = ButterKnife.bind(this, view);
         if (savedInstanceState != null) {
             steps = savedInstanceState.getParcelableArrayList(STEP_VIDEO_RECEIPE);
-            stepIndex = savedInstanceState.getInt(STEP_INDEX);
+            stepIndex = savedInstanceState.getInt(STEP_INDEX, 0);
             position = savedInstanceState.getLong(PLAYER_POSITION, 0);
+            playState = savedInstanceState.getBoolean(PLAYER_PLAY_STATE, false);
         }
         initializePlayer();
         if (steps != null) {
@@ -112,7 +115,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > 24) {
             initializePlayer();
         }
     }
@@ -121,7 +124,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         hideSystemUi();
-        if ((Util.SDK_INT <= 23 || player == null)) {
+        if ((Util.SDK_INT <= 24 || player == null)) {
             initializePlayer();
         }
     }
@@ -131,13 +134,16 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(STEP_VIDEO_RECEIPE, steps);
         outState.putInt(STEP_INDEX, stepIndex);
-        outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
+        if (player != null) {
+            outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
+            outState.putBoolean(PLAYER_PLAY_STATE, player.getPlayWhenReady());
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23) {
+        if (Util.SDK_INT <= 24) {
             releasePlayer();
         }
     }
@@ -145,7 +151,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > 24) {
             releasePlayer();
         }
     }
@@ -175,7 +181,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                 context, userAgent), new DefaultExtractorsFactory(), null, null);
         player.prepare(mediaSource);
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(playState);
     }
 
     private void releasePlayer() {
