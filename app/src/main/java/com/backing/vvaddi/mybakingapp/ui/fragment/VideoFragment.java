@@ -39,6 +39,7 @@ import butterknife.Unbinder;
 
 public class VideoFragment extends Fragment implements View.OnClickListener {
 
+    public static final int API_LEVEL = 23;
     public static final String STEP_VIDEO_RECEIPE = "stepsVideo";
     public static final String STEP_INDEX = "stepIndex";
     public static final String PLAYER_POSITION = "player_position";
@@ -115,7 +116,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 24) {
+        if (Util.SDK_INT > API_LEVEL) {
             initializePlayer();
         }
     }
@@ -124,7 +125,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         hideSystemUi();
-        if ((Util.SDK_INT <= 24 || player == null)) {
+        if ((Util.SDK_INT <= API_LEVEL || player == null)) {
             initializePlayer();
         }
     }
@@ -143,7 +144,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 24) {
+        if (Util.SDK_INT <= API_LEVEL) {
             releasePlayer();
         }
     }
@@ -151,7 +152,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 24) {
+        if (Util.SDK_INT > API_LEVEL) {
             releasePlayer();
         }
     }
